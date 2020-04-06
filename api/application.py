@@ -24,7 +24,16 @@ def getApplications():
     rows = cur.execute("SELECT id,app.name,app.environment,app.country,app.datacenter,app.platform,app.region FROM application as app").fetchall()
     db.close()
     for row in rows:
-        data.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6]])
+        # data.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6]])
+        data.append({
+          "id": row[0],
+          "name": row[1],
+          "environment": row[2],
+          "country": row[3],
+          "datacenter": row[4],
+          "platform": row[5],
+          "region": row[6]
+        })
 
     return json.dumps(data)
 
