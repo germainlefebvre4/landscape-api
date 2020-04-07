@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, request, render_template, current_app
+from flask import jsonify
 from flask import Blueprint
 from flask_cors import CORS
 from flask_api import status
@@ -6,7 +7,6 @@ import logging
 import sys
 import datetime as dt
 import sqlite3
-import json
 import inspect
 
 from api.db import get_db
@@ -21,21 +21,22 @@ def getApplications():
     # Database select
     db = get_db()
     cur = db.cursor()
-    rows = cur.execute("SELECT id,app.name,app.environment,app.country,app.datacenter,app.platform,app.region FROM application as app").fetchall()
+    rows = cur.execute("SELECT id,app.name,app.environment,app.version,app.country,app.provider,app.project,app.region,app.datacenter FROM application as app").fetchall()
     db.close()
     for row in rows:
-        # data.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6]])
         data.append({
           "id": row[0],
           "name": row[1],
           "environment": row[2],
-          "country": row[3],
-          "datacenter": row[4],
-          "platform": row[5],
-          "region": row[6]
+          "version": row[3],
+          "country": row[4],
+          "provider": row[5],
+          "project": row[6],
+          "region": row[7],
+          "datacenter": row[8],
         })
 
-    return json.dumps(data)
+    return jsonify(data)
 
 @bp.route("/api/applications", methods=["POST"])
 def addApplication():
@@ -63,26 +64,30 @@ def addApplication():
 
 @bp.route("/api/applications/<int:app_id>", methods=["PUT"])
 def updateApplication(app_id):
-    #appName = "{}".format(request.form.get("app_name"))
-    #appEnv = "{}".format(request.form.get("app_env"))
     appId = "{}".format(app_id)
+    appVersion = None
     appCountry = None
-    appDatacenter = None
-    appPlatform = None
+    appProvider = None
+    appProject = None
     appRegion = None
+    appDatacenter = None
+    if request.form.get("app_version"):
+      appCountry = "{}".format(request.form.get("app_version"))
     if request.form.get("app_country"):
       appCountry = "{}".format(request.form.get("app_country"))
+    if request.form.get("app_provider"):
+      appCountry = "{}".format(request.form.get("app_provider"))
+    if request.form.get("app_project"):
+      appPlatform = "{}".format(request.form.get("app_project"))
+    if request.form.get("app_region"):
+      appRegion = "{}".format(request.form.get("app_region"))
     if request.form.get("app_datacenter"):
       appDatacenter = "{}".format(request.form.get("app_datacenter"))
-    if request.form.get("app_platform"):
-      appPlatform = "{}".format(request.form.get("app_platform"), None)
-    if request.form.get("app_region"):
-      appRegion = "{}".format(request.form.get("app_region"), None)
 
     db = get_db()
     cur = db.cursor()
     try:
-      cur.execute('UPDATE application SET country=?, datacenter=?, platform=?, region=? WHERE id=?', (appCountry, appDatacenter, appPlatform, appRegion, app_id))
+      cur.execute('UPDATE application SET version=?, country=?, provider=?, project=?, region=?, datacenter=? WHERE id=?', (appVersion, appCountry, appProvider, appProject, appRegion, appDatacenter, app_id))
       db.commit()
       cur.close()
       db.close()

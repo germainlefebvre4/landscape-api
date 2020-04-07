@@ -46,21 +46,16 @@ CREATE TABLE environment (
 ************************************************************/
 
 CREATE TABLE application (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     environment TEXT,
-    country TEXT, 
-    datacenter TEXT, 
-    platform TEXT, 
-    region TEXT, 
+    version TEXT,
+    country TEXT,
+    provider TEXT,
+    project TEXT,
+    region TEXT,
+    datacenter TEXT,
     UNIQUE (name, environment)
-/*
-    id_env INTEGER,
-    FOREIGN KEY (id_env)
-        REFERENCES environment (id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-*/
 );
 
 
@@ -78,5 +73,7 @@ CREATE TABLE application (
 * DATA
 ************************************************************/
 INSERT INTO configuration (id, key, value) VALUES (1, 'customer', 'Germain');
---INSERT INTO environment (id, name) VALUES (1, 'Production');
-INSERT INTO application (id, name, environment) VALUES (1, 'Dartagnan', 'Production');
+INSERT INTO application (id, name, environment, provider, project, region) VALUES (1, 'Dartagnan', 'Production', 'AWS', 'Prod', 'Paris');
+INSERT INTO application (id, name, environment, provider, country) VALUES (2, 'Dartagnan', 'Preprod', 'AWS', 'France');
+INSERT INTO application (id, name, environment, provider, country) VALUES (3, 'Search&Co', 'Production', 'GCP', 'Belgium');
+INSERT INTO application (id, name, environment, provider, country) VALUES (4, 'Search&Co', 'Preprod', 'GCP', 'Netherlands');
