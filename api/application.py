@@ -72,13 +72,13 @@ def updateApplication(app_id):
     appRegion = None
     appDatacenter = None
     if request.form.get("app_version"):
-      appCountry = "{}".format(request.form.get("app_version"))
+      appVersion = "{}".format(request.form.get("app_version"))
     if request.form.get("app_country"):
       appCountry = "{}".format(request.form.get("app_country"))
     if request.form.get("app_provider"):
-      appCountry = "{}".format(request.form.get("app_provider"))
+      appProvider = "{}".format(request.form.get("app_provider"))
     if request.form.get("app_project"):
-      appPlatform = "{}".format(request.form.get("app_project"))
+      appProject = "{}".format(request.form.get("app_project"))
     if request.form.get("app_region"):
       appRegion = "{}".format(request.form.get("app_region"))
     if request.form.get("app_datacenter"):
