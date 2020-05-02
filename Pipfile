@@ -11,6 +11,7 @@ flask-api = "*"
 flask-cors = "*"
 pytest = "*"
 pytest-cov = "*"
+tinydb = "*"
 
 [requires]
 python_version = "3"

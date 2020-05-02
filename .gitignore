@@ -1,1 +1,2 @@
-instance/landscape.sqlite
+instance/*.sqlite
+instance/*.json

@@ -55,6 +55,7 @@ CREATE TABLE application (
     project TEXT,
     region TEXT,
     datacenter TEXT,
+    services TEXT,
     UNIQUE (name, environment)
 );
 
